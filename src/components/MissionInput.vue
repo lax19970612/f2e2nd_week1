@@ -16,16 +16,16 @@ import { defineComponent, reactive, toRefs } from "vue";
 export default defineComponent({
   setup() {
     const state = reactive({
-      missionName: ''
-    })
+      missionName: "",
+    });
 
-    return { ...toRefs(state) }
+    return { ...toRefs(state) };
   },
   methods: {
-    addMission () {
-      this.$emit('addMissionEmit', this.missionName)
-    }
-  }
+    addMission() {
+      this.$emit("addMissionEmit", this.missionName);
+    },
+  },
 });
 </script>
 

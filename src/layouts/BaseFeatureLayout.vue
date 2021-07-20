@@ -17,30 +17,15 @@
       </div>
       <div class="current-mission-countdown-timer">02:18</div>
     </div>
-    <div class="mission-list-wrapper">
-      <div class="mission-list-row">
-        <div class="mission-list-icon" />
-        <div class="mission-list-content">the second thing to do today</div>
-        <div class="mission-list-play-icon" />
-      </div>
-      <div class="mission-list-row">
-        <div class="mission-list-icon" />
-        <div class="mission-list-content">the third thing to do today</div>
-        <div class="mission-list-play-icon" />
-      </div>
-      <div class="mission-list-row">
-        <div class="mission-list-icon" />
-        <div class="mission-list-content">the forth thing to do today</div>
-        <div class="mission-list-play-icon" />
-      </div>
-      <div class="mission-list-row mission-list-getmore">MORE</div>
-    </div>
+    <mission-list />
   </section>
 </template>
 
 <script lang="ts">
-import MissionType from "@/interfaces/Mission";
+import Mission from "@/interfaces/Mission";
+
 import MissionInput from "@/components/MissionInput.vue";
+import MissionList from "@/components/MissionList.vue";
 
 import { defineComponent, PropType } from "vue";
 
@@ -48,7 +33,7 @@ export default defineComponent({
   name: "BaseFeatureLayout",
   props: {
     missionList: {
-      type: Array as PropType<MissionType[]>,
+      type: Array as PropType<Mission[]>,
       default() {
         return [];
       },
@@ -56,17 +41,18 @@ export default defineComponent({
   },
   components: {
     MissionInput,
+    MissionList,
   },
   setup() {},
 });
 </script>
 
 <style lang="scss" scoped>
-$current_mission_font_color: #003164;
-$current_mission_icon_size: 48px;
-
 $mission_list_icon_size: 22px;
 $mission_list_font_color: #003164;
+
+$current_mission_font_color: #003164;
+$current_mission_icon_size: 48px;
 
 .base-feature-layout {
   width: 66.67%;
