@@ -46,36 +46,43 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const state = reactive({
-      sortedMissionList: sortedMission(props.missionList)
+      sortedMissionList: sortedMission(props.missionList),
     });
 
     // @watch
-    watch(() => props.missionList, (newValue: Mission[], oldValue: Mission[]) => {
-      state.sortedMissionList = sortedMission(newValue)
-    }, { deep: true })
+    watch(
+      () => props.missionList,
+      (newValue: Mission[]) => {
+        state.sortedMissionList = sortedMission(newValue);
+      },
+      { deep: true }
+    );
 
     // @method
     function sortedMission(initialMissionList: Mission[]): Mission[] {
-      const missions: Mission[] = props.showFirstMission ? initialMissionList : initialMissionList.slice(1);
+      const missions: Mission[] = props.showFirstMission
+        ? initialMissionList
+        : initialMissionList.slice(1);
       const filterMissions: Mission[] = missions.filter((mission: Mission) => {
         return mission.complete === props.showComplete;
       });
 
-      const sortedMissionList: Mission[] = props.limit !== -1
-            ? filterMissions.slice(0, props.limit)
-            : filterMissions
+      const sortedMissionList: Mission[] =
+        props.limit !== -1
+          ? filterMissions.slice(0, props.limit)
+          : filterMissions;
 
-      return sortedMissionList
+      return sortedMissionList;
     }
 
     function executeMission(index: number) {
-      emit("executeMissionEmit", !props.showFirstMission ? index + 1: index)
+      emit("executeMissionEmit", !props.showFirstMission ? index + 1 : index);
     }
 
     return {
       ...toRefs(state),
       sortedMission,
-      executeMission
+      executeMission,
     };
   },
 });

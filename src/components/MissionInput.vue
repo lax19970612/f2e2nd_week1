@@ -24,6 +24,7 @@ export default defineComponent({
   methods: {
     addMission() {
       this.$emit("addMissionEmit", this.missionName);
+      this.missionName = "";
     },
   },
 });

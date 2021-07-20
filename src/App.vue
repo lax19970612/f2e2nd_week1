@@ -1,6 +1,7 @@
 <template>
   <base-feature-layout
     :missionList="missionList"
+    @addMissionEmit="addMissionEmitHandler"
     @executeMissionEmit="executeMissionEmitHandler"
   />
   <advanced-feature-layout />
@@ -11,7 +12,6 @@ import { defineComponent, toRefs, reactive } from "vue";
 // import HelloWorld from './components/HelloWorld.vue';
 import BaseFeatureLayout from "./layouts/BaseFeatureLayout.vue";
 import AdvancedFeatureLayout from "./layouts/AdvancedFeatureLayout.vue";
-import Mission from "./interfaces/Mission";
 
 export default defineComponent({
   name: "App",
@@ -46,16 +46,32 @@ export default defineComponent({
           name: "forth mission",
           unitTime: 1500,
           executeTime: 0,
-        }
-      ]
-    })
+        },
+      ],
+    });
 
-    function executeMissionEmitHandler(context: number) {
-      state.missionList = [...state.missionList.splice(context, 1), ...state.missionList]
+    function executeMissionEmitHandler(payload: number) {
+      state.missionList = [
+        ...state.missionList.splice(payload, 1),
+        ...state.missionList,
+      ];
     }
 
-    return { ...toRefs(state), executeMissionEmitHandler }
-  }
+    function addMissionEmitHandler(payload: string) {
+      state.missionList.push({
+        complete: false,
+        name: payload,
+        unitTime: 1500,
+        executeTime: 0,
+      });
+    }
+
+    return {
+      ...toRefs(state),
+      executeMissionEmitHandler,
+      addMissionEmitHandler,
+    };
+  },
 });
 </script>
 

@@ -1,6 +1,6 @@
 <template>
   <section class="base-feature-layout">
-    <mission-input />
+    <mission-input @addMissionEmit="addMissionEmitHandler" />
     <div class="current-mission-wrapper">
       <div class="current-mission-icon" />
       <div class="current-mission-content">
@@ -19,6 +19,7 @@
     </div>
     <mission-list
       :missionList="missionList"
+      limit="3"
       @executeMissionEmit="executeMissionEmitHandler"
     />
   </section>
@@ -47,11 +48,15 @@ export default defineComponent({
     MissionList,
   },
   setup(props, { emit }) {
-    function executeMissionEmitHandler (payload: number) {
-      emit('executeMissionEmit', payload)
+    function executeMissionEmitHandler(payload: number) {
+      emit("executeMissionEmit", payload);
     }
 
-    return { executeMissionEmitHandler }
+    function addMissionEmitHandler(payload: string) {
+      emit("addMissionEmit", payload);
+    }
+
+    return { executeMissionEmitHandler, addMissionEmitHandler };
   },
 });
 </script>

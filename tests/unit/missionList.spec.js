@@ -38,7 +38,9 @@ describe("MissionList.vue test", () => {
     });
 
     expect(wrapper.findAll(".mission-list-content").length).toEqual(2);
-    expect(wrapper.findAll(".mission-list-content")[1].text()).toEqual("third mission");
+    expect(wrapper.findAll(".mission-list-content")[1].text()).toEqual(
+      "third mission"
+    );
 
     // test two
     wrapper.setProps({
@@ -70,12 +72,14 @@ describe("MissionList.vue test", () => {
       ],
       showComplete: true,
       limit: -1,
-      showFirstMission: true
+      showFirstMission: true,
     });
 
-    await wrapper.vm.$nextTick()
-    expect(wrapper.findAll(".mission-list-content").length).toEqual(3)
-    expect(wrapper.findAll(".mission-list-content")[2].text()).toEqual("forth mission");
+    await wrapper.vm.$nextTick();
+    expect(wrapper.findAll(".mission-list-content").length).toEqual(3);
+    expect(wrapper.findAll(".mission-list-content")[2].text()).toEqual(
+      "forth mission"
+    );
   });
 
   it("watch props: data sortedMissionList test", () => {
@@ -159,7 +163,7 @@ describe("MissionList.vue test", () => {
         ],
         showComplete: false,
         limit: 2,
-        showFirstMission: false
+        showFirstMission: false,
       },
     });
 
