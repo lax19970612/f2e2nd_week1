@@ -4,16 +4,28 @@
       type="text"
       class="mission-input-content"
       placeholder="add a new mission"
+      v-model="missionName"
     />
-    <div class="mission-input-add-icon">+</div>
+    <div class="mission-input-add-icon" @click="addMission">+</div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, reactive, toRefs } from "vue";
 
 export default defineComponent({
-  setup() {},
+  setup() {
+    const state = reactive({
+      missionName: ''
+    })
+
+    return { ...toRefs(state) }
+  },
+  methods: {
+    addMission () {
+      this.$emit('addMissionEmit', this.missionName)
+    }
+  }
 });
 </script>
 
