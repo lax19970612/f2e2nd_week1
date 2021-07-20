@@ -24,24 +24,28 @@ export default defineComponent({
     const state = reactive({
       missionList: [
         {
-          complete: false,
+          id: Math.floor(new Date().valueOf() * Math.random()),
+          complete: true,
           name: "first mission",
           unitTime: 1500,
           executeTime: 3000,
         },
         {
+          id: Math.floor(new Date().valueOf() * Math.random()),
           complete: false,
           name: "second mission",
           unitTime: 1500,
           executeTime: 0,
         },
         {
+          id: Math.floor(new Date().valueOf() * Math.random()),
           complete: false,
           name: "third mission",
           unitTime: 1500,
           executeTime: 0,
         },
         {
+          id: Math.floor(new Date().valueOf() * Math.random()),
           complete: false,
           name: "forth mission",
           unitTime: 1500,
@@ -51,14 +55,19 @@ export default defineComponent({
     });
 
     function executeMissionEmitHandler(payload: number) {
+      const executeMissionIndex = state.missionList.findIndex((mission) => {
+        return mission.id === payload;
+      });
+
       state.missionList = [
-        ...state.missionList.splice(payload, 1),
+        ...state.missionList.splice(executeMissionIndex, 1),
         ...state.missionList,
       ];
     }
 
     function addMissionEmitHandler(payload: string) {
       state.missionList.push({
+        id: Math.floor(new Date().valueOf() * Math.random()),
         complete: false,
         name: payload,
         unitTime: 1500,

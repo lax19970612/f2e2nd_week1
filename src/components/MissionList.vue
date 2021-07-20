@@ -2,8 +2,8 @@
   <div class="mission-list-wrapper">
     <div
       class="mission-list-row"
-      v-for="(mission, index) in sortedMissionList"
-      :key="index"
+      v-for="mission in sortedMissionList"
+      :key="mission.id"
     >
       <div
         class="mission-list-icon"
@@ -13,7 +13,7 @@
       <div
         v-if="!mission.complete"
         class="mission-list-play-icon"
-        @click="executeMission(index)"
+        @click="executeMission(mission.id)"
       />
     </div>
     <div class="mission-list-row mission-list-getmore">MORE</div>
@@ -75,8 +75,8 @@ export default defineComponent({
       return sortedMissionList;
     }
 
-    function executeMission(index: number) {
-      emit("executeMissionEmit", !props.showFirstMission ? index + 1 : index);
+    function executeMission(id: number) {
+      emit("executeMissionEmit", id);
     }
 
     return {
@@ -148,19 +148,5 @@ $mission_list_font_color: #003164;
     font-weight: bold;
     cursor: pointer;
   }
-}
-
-.icon-unchecked {
-  mask: url("~@/assets/svg/radio_button_unchecked_24dp.svg") no-repeat center /
-    contain;
-  -webkit-mask: url("~@/assets/svg/radio_button_unchecked_24dp.svg") no-repeat
-    center / contain;
-}
-
-.icon-checked {
-  mask: url("~@/assets/svg/check_circle_outline_24dp.svg") no-repeat center /
-    contain;
-  -webkit-mask: url("~@/assets/svg/check_circle_outline_24dp.svg") no-repeat
-    center / contain;
 }
 </style>
