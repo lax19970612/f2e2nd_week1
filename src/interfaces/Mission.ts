@@ -1,5 +1,6 @@
 export default interface Mission {
   complete: boolean;
   name: string;
-  remainTime: number; // using seconds
+  unitTime: number; // using seconds
+  executeTime: number; // using seconds
 }
