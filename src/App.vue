@@ -1,13 +1,17 @@
 <template>
-  <base-feature-layout />
+  <base-feature-layout
+    :missionList="missionList"
+    @executeMissionEmit="executeMissionEmitHandler"
+  />
   <advanced-feature-layout />
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, toRefs, reactive } from "vue";
 // import HelloWorld from './components/HelloWorld.vue';
 import BaseFeatureLayout from "./layouts/BaseFeatureLayout.vue";
 import AdvancedFeatureLayout from "./layouts/AdvancedFeatureLayout.vue";
+import Mission from "./interfaces/Mission";
 
 export default defineComponent({
   name: "App",
@@ -16,6 +20,42 @@ export default defineComponent({
     BaseFeatureLayout,
     AdvancedFeatureLayout,
   },
+  setup() {
+    const state = reactive({
+      missionList: [
+        {
+          complete: false,
+          name: "first mission",
+          unitTime: 1500,
+          executeTime: 3000,
+        },
+        {
+          complete: false,
+          name: "second mission",
+          unitTime: 1500,
+          executeTime: 0,
+        },
+        {
+          complete: false,
+          name: "third mission",
+          unitTime: 1500,
+          executeTime: 0,
+        },
+        {
+          complete: false,
+          name: "forth mission",
+          unitTime: 1500,
+          executeTime: 0,
+        }
+      ]
+    })
+
+    function executeMissionEmitHandler(context: number) {
+      state.missionList = [...state.missionList.splice(context, 1), ...state.missionList]
+    }
+
+    return { ...toRefs(state), executeMissionEmitHandler }
+  }
 });
 </script>
 

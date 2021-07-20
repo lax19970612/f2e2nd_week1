@@ -2,11 +2,11 @@ import { shallowMount, mount } from "@vue/test-utils";
 import MissionList from "@/components/MissionList.vue";
 
 describe("MissionList.vue test", () => {
-  it("props data test", () => {
+  it("props data test", async () => {
     // test one
     const wrapper = shallowMount(MissionList, {
       propsData: {
-        missions: [
+        missionList: [
           {
             complete: true,
             name: "first mission",
@@ -38,13 +38,11 @@ describe("MissionList.vue test", () => {
     });
 
     expect(wrapper.findAll(".mission-list-content").length).toEqual(2);
-    expect(wrapper.findAll(".mission-list-content").at(1).text()).toEqual(
-      "third mission".toUpperCase()
-    );
+    expect(wrapper.findAll(".mission-list-content")[1].text()).toEqual("third mission");
 
     // test two
     wrapper.setProps({
-      missions: [
+      missionList: [
         {
           complete: true,
           name: "first mission",
@@ -72,18 +70,18 @@ describe("MissionList.vue test", () => {
       ],
       showComplete: true,
       limit: -1,
+      showFirstMission: true
     });
 
-    expect(wrapper.findAll(".mission-list-content").length).toEqual(3);
-    expect(wrapper.findAll(".mission-list-content").at(2).text()).toEqual(
-      "forth mission".toUpperCase()
-    );
+    await wrapper.vm.$nextTick()
+    expect(wrapper.findAll(".mission-list-content").length).toEqual(3)
+    expect(wrapper.findAll(".mission-list-content")[2].text()).toEqual("forth mission");
   });
 
   it("watch props: data sortedMissionList test", () => {
     const wrapper = shallowMount(MissionList, {
       propsData: {
-        missions: [
+        missionList: [
           {
             complete: true,
             name: "first mission",
@@ -133,7 +131,7 @@ describe("MissionList.vue test", () => {
   it("executeMission method test", async () => {
     const wrapper = mount(MissionList, {
       propsData: {
-        missions: [
+        missionList: [
           {
             complete: true,
             name: "first mission",
@@ -161,33 +159,13 @@ describe("MissionList.vue test", () => {
         ],
         showComplete: false,
         limit: 2,
+        showFirstMission: false
       },
     });
 
     wrapper.vm.executeMission(2);
+
     expect(wrapper.emitted().executeMissionEmit).toBeTruthy();
     expect(wrapper.emitted().executeMissionEmit.length).toEqual(1);
-
-    await wrapper.vm.$nextTick();
-    expect(wrapper.vm.missions[0]).toEqual({
-      complete: false,
-      name: "third mission",
-      unitTime: 1500,
-      executeTime: 0,
-    });
-    expect(wrapper.vm.sortedMissionList).toEqual([
-      {
-        complete: false,
-        name: "second mission",
-        unitTime: 1500,
-        executeTime: 0,
-      },
-      {
-        complete: false,
-        name: "forth mission",
-        unitTime: 1500,
-        executeTime: 0,
-      },
-    ]);
   });
 });
