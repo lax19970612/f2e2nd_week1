@@ -4,25 +4,25 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 // import HelloWorld from './components/HelloWorld.vue';
-import BaseFeatureLayout from './layouts/BaseFeatureLayout.vue';
-import AdvancedFeatureLayout from './layouts/AdvancedFeatureLayuut.vue';
+import BaseFeatureLayout from "./layouts/BaseFeatureLayout.vue";
+import AdvancedFeatureLayout from "./layouts/AdvancedFeatureLayout.vue";
 
 export default defineComponent({
-  name: 'App',
+  name: "App",
   components: {
     // HelloWorld
     BaseFeatureLayout,
-    AdvancedFeatureLayout
-  }
+    AdvancedFeatureLayout,
+  },
 });
 </script>
 
 <style lang="scss">
 @font-face {
   font-family: Roboto;
-  src: url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+  src: url("https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap");
 }
 
 * {
@@ -30,7 +30,8 @@ export default defineComponent({
   letter-spacing: 0;
 }
 
-html, body {
+html,
+body {
   margin: 0 auto;
   padding: 0;
   overflow: hidden;

@@ -49,7 +49,9 @@ export default defineComponent({
   props: {
     missionList: {
       type: Array as PropType<MissionType[]>,
-      default () { return [] }
+      default() {
+        return [];
+      },
     },
   },
   components: {
