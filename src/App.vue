@@ -4,11 +4,17 @@
     @addMissionEmit="addMissionEmitHandler"
     @executeMissionEmit="executeMissionEmitHandler"
   />
-  <timer
-    :mission="missionList[0]"
-    @timerCountingEmit="timerCountingEmitHandler"
+  <transition name="timer-fade">
+    <timer
+      v-if="!advancedMode"
+      :mission="missionList[0]"
+      @timerCountingEmit="timerCountingEmitHandler"
+    />
+  </transition>
+  <advanced-feature-layout
+    :advancedMode="advancedMode"
+    @changeModeEmit="changeModeEmitHandler"
   />
-  <advanced-feature-layout />
 </template>
 
 <script lang="ts">
@@ -28,6 +34,7 @@ export default defineComponent({
   },
   setup() {
     const state = reactive({
+      advancedMode: false,
       missionList: [
         {
           id: Math.floor(new Date().valueOf() * Math.random()),
@@ -85,11 +92,16 @@ export default defineComponent({
       state.missionList[0].executeTime++;
     }
 
+    function changeModeEmitHandler(flag: boolean) {
+      state.advancedMode = flag;
+    }
+
     return {
       ...toRefs(state),
       executeMissionEmitHandler,
       addMissionEmitHandler,
       timerCountingEmitHandler,
+      changeModeEmitHandler
     };
   },
 });
@@ -118,4 +130,13 @@ body {
   position: relative;
   overflow: hidden;
 }
+
+.timer-fade-enter-active, .timer-fade-leave-active {
+  transition: opacity .3s;
+}
+
+.timer-fade-enter, .timer-fade-leave-to {
+  opacity: 0;
+}
+
 </style>
