@@ -4,6 +4,10 @@
     @addMissionEmit="addMissionEmitHandler"
     @executeMissionEmit="executeMissionEmitHandler"
   />
+  <timer
+    :mission="missionList[0]"
+    @timerCountingEmit="timerCountingEmitHandler"
+  />
   <advanced-feature-layout />
 </template>
 
@@ -12,6 +16,7 @@ import { defineComponent, toRefs, reactive } from "vue";
 // import HelloWorld from './components/HelloWorld.vue';
 import BaseFeatureLayout from "./layouts/BaseFeatureLayout.vue";
 import AdvancedFeatureLayout from "./layouts/AdvancedFeatureLayout.vue";
+import Timer from "./components/Timer.vue";
 
 export default defineComponent({
   name: "App",
@@ -19,13 +24,14 @@ export default defineComponent({
     // HelloWorld
     BaseFeatureLayout,
     AdvancedFeatureLayout,
+    Timer,
   },
   setup() {
     const state = reactive({
       missionList: [
         {
           id: Math.floor(new Date().valueOf() * Math.random()),
-          complete: true,
+          complete: false,
           name: "first mission",
           unitTime: 1500,
           executeTime: 3000,
@@ -75,10 +81,15 @@ export default defineComponent({
       });
     }
 
+    function timerCountingEmitHandler() {
+      state.missionList[0].executeTime++;
+    }
+
     return {
       ...toRefs(state),
       executeMissionEmitHandler,
       addMissionEmitHandler,
+      timerCountingEmitHandler,
     };
   },
 });
