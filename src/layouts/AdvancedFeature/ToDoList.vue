@@ -1,6 +1,6 @@
 <template>
   <div class="todolist-wrapper">
-    <mission-input />
+    <mission-input @addMissionEmit="addMissionEmitHandler" />
     <header-bar title="to-do" />
     <mission-list
       :missionList="missionList"
@@ -21,6 +21,7 @@
         showFirstMission: true,
         inAdvancedMode: true,
       }"
+      @executeMissionEmit="null"
     />
   </div>
 </template>
@@ -47,11 +48,21 @@ export default defineComponent({
       default: () => [],
     },
   },
-  // setup(props, { emit }) {
-  //   // @emit handler
+  setup(props, { emit }) {
+    // @method: emit handler
+    function addMissionEmitHandler(payload: string) {
+      emit("addMissionEmit", payload);
+    }
 
-  //   function executeMissionEmitHandler(payload: string) {}
-  // },
+    function executeMissionEmitHandler(payload: number) {
+      emit("executeMissionEmit", payload);
+    }
+
+    return {
+      addMissionEmitHandler,
+      executeMissionEmitHandler,
+    };
+  },
 });
 </script>
 

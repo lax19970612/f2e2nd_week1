@@ -3,6 +3,7 @@
     <div class="table__cell__4 menu-wrapper relative">
       <menu-group
         :advancedMode="advancedMode"
+        :currentPage="currentPage"
         @menuItemClickEmit="menuItemClickEmitHandler"
       />
       <playing-panel v-if="advancedMode" />
@@ -10,6 +11,8 @@
     <div class="table__cell__6 menu-wrapper">
       <to-do-list
         :missionList="missionList"
+        @addMissionEmit="addMissionEmitHandler"
+        @executeMissionEmit="executeMissionEmitHandler"
         v-if="currentPage === 'todolist'"
       />
       <div
@@ -65,12 +68,13 @@ export default defineComponent({
       if (!props.advancedMode) openAdvancedPage();
     }
 
-    // @methods
-    function linkClick(page: string) {
-      state.currentPage = page;
-      if (!props.advancedMode) {
-        openAdvancedPage();
-      }
+    function addMissionEmitHandler(payload: string) {
+      emit("addMissionEmit", payload);
+    }
+
+    function executeMissionEmitHandler(payload: number) {
+      closeAdvancedPage();
+      emit("executeMissionEmit", payload);
     }
 
     function openAdvancedPage() {
@@ -88,14 +92,16 @@ export default defineComponent({
         rootDom.style.left = "66.67%";
       }
       state.advancedMode = false;
+      state.currentPage = null;
       emit("changeModeEmit", state.advancedMode);
     }
 
     return {
       ...toRefs(state),
       root,
+      addMissionEmitHandler,
+      executeMissionEmitHandler,
       menuItemClickEmitHandler,
-      linkClick,
       closeAdvancedPage,
     };
   },

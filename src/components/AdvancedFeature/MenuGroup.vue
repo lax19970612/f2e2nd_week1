@@ -24,18 +24,20 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    currentPage: {
+      type: String || null,
+      default: null,
+    },
   },
   setup(props, { emit }) {
     // @data
     const state = reactive({
-      currentPage: null as null | string,
       pages: pages,
     });
 
     // @method
     function itemClick(page: string) {
-      state.currentPage = page;
-      emit("menuItemClickEmit", state.currentPage);
+      emit("menuItemClickEmit", page);
     }
 
     return {

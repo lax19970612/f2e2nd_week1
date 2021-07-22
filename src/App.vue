@@ -14,6 +14,8 @@
   <advanced-feature-layout
     :advancedMode="advancedMode"
     :missionList="missionList"
+    @addMissionEmit="addMissionEmitHandler"
+    @executeMissionEmit="executeMissionEmitHandler"
     @changeModeEmit="changeModeEmitHandler"
   />
 </template>
