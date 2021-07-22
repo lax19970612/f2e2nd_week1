@@ -3,8 +3,13 @@
     <mission-input @addMissionEmit="addMissionEmitHandler" />
     <current-mission :mission="missionList[0]" />
     <mission-list
+      :options="{
+        showComplete: false,
+        limit: -1,
+        showFirstMission: false,
+        inAdvancedMode: false,
+      }"
       :missionList="missionList"
-      :limit="3"
       @executeMissionEmit="executeMissionEmitHandler"
     />
   </section>

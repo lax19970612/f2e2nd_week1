@@ -13,6 +13,7 @@
   </transition>
   <advanced-feature-layout
     :advancedMode="advancedMode"
+    :missionList="missionList"
     @changeModeEmit="changeModeEmitHandler"
   />
 </template>
@@ -23,6 +24,8 @@ import { defineComponent, toRefs, reactive } from "vue";
 import BaseFeatureLayout from "./layouts/BaseFeatureLayout.vue";
 import AdvancedFeatureLayout from "./layouts/AdvancedFeatureLayout.vue";
 import Timer from "./components/Timer.vue";
+
+import tempMissionData from "@/assets/tempMissionData";
 
 export default defineComponent({
   name: "App",
@@ -35,36 +38,7 @@ export default defineComponent({
   setup() {
     const state = reactive({
       advancedMode: false,
-      missionList: [
-        {
-          id: Math.floor(new Date().valueOf() * Math.random()),
-          complete: false,
-          name: "first mission",
-          unitTime: 1500,
-          executeTime: 3000,
-        },
-        {
-          id: Math.floor(new Date().valueOf() * Math.random()),
-          complete: false,
-          name: "second mission",
-          unitTime: 1500,
-          executeTime: 0,
-        },
-        {
-          id: Math.floor(new Date().valueOf() * Math.random()),
-          complete: false,
-          name: "third mission",
-          unitTime: 1500,
-          executeTime: 0,
-        },
-        {
-          id: Math.floor(new Date().valueOf() * Math.random()),
-          complete: false,
-          name: "forth mission",
-          unitTime: 1500,
-          executeTime: 0,
-        },
-      ],
+      missionList: tempMissionData,
     });
 
     function executeMissionEmitHandler(payload: number) {
@@ -101,7 +75,7 @@ export default defineComponent({
       executeMissionEmitHandler,
       addMissionEmitHandler,
       timerCountingEmitHandler,
-      changeModeEmitHandler
+      changeModeEmitHandler,
     };
   },
 });
@@ -131,12 +105,13 @@ body {
   overflow: hidden;
 }
 
-.timer-fade-enter-active, .timer-fade-leave-active {
-  transition: opacity .3s;
+.timer-fade-enter-active,
+.timer-fade-leave-active {
+  transition: opacity 0.3s;
 }
 
-.timer-fade-enter, .timer-fade-leave-to {
+.timer-fade-enter,
+.timer-fade-leave-to {
   opacity: 0;
 }
-
 </style>

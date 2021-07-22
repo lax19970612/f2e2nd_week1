@@ -29,7 +29,9 @@ export default defineComponent({
   props: {
     mission: {
       type: Object as PropType<Mission>,
-      default: () => {},
+      default: () => {
+        return {};
+      },
     },
   },
   setup(props, { emit }) {

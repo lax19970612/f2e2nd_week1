@@ -7,22 +7,47 @@
     >
       <div
         class="mission-list-icon"
-        :class="[mission.complete ? 'icon-checked' : 'icon-unchecked']"
+        :class="[
+          { 'advanced-mode-bg-color': options.inAdvancedMode },
+          mission.complete ? 'icon-checked' : 'icon-unchecked',
+        ]"
       />
-      <div class="mission-list-content">{{ mission.name }}</div>
+      <div
+        class="mission-list-content"
+        :class="{
+          'advanced-mode-color': options.inAdvancedMode,
+          'is-complete': mission.complete,
+        }"
+      >
+        {{ mission.name }}
+        <div class="timelength-wrapper" v-if="mission.complete">
+          <div
+            v-for="index in calcUnit(mission.executeTime, mission.unitTime)"
+            :key="index"
+            class="timelength-showing-circle"
+          />
+        </div>
+      </div>
       <div
         v-if="!mission.complete"
         class="mission-list-play-icon"
+        :class="{ 'advanced-mode-bg-color': options.inAdvancedMode }"
         @click="executeMission(mission.id)"
       />
     </div>
-    <div class="mission-list-row mission-list-getmore">MORE</div>
+    <div
+      v-if="options.limit !== -1"
+      class="mission-list-row mission-list-getmore"
+    >
+      MORE
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType, reactive, toRefs, watch } from "vue";
 import Mission from "@/interfaces/Mission";
+import MissionListOption from "@/interfaces/MissionListOption";
 
 export default defineComponent({
   name: "MissionList",
@@ -31,17 +56,16 @@ export default defineComponent({
       type: Array as PropType<Mission[]>,
       default: () => [],
     },
-    showComplete: {
-      type: Boolean,
-      default: false,
-    },
-    showFirstMission: {
-      type: Boolean,
-      default: false,
-    },
-    limit: {
-      type: Number,
-      default: -1,
+    options: {
+      type: Object as PropType<MissionListOption>,
+      default: () => {
+        return {
+          showComplete: false,
+          showFirstMission: false,
+          limit: -1,
+          inAdvancedMode: false,
+        };
+      },
     },
   },
   setup(props, { emit }) {
@@ -60,19 +84,23 @@ export default defineComponent({
 
     // @method
     function sortedMission(initialMissionList: Mission[]): Mission[] {
-      const missions: Mission[] = props.showFirstMission
+      const missions: Mission[] = props.options.showFirstMission
         ? initialMissionList
         : initialMissionList.slice(1);
       const filterMissions: Mission[] = missions.filter((mission: Mission) => {
-        return mission.complete === props.showComplete;
+        return mission.complete === props.options.showComplete;
       });
 
       const sortedMissionList: Mission[] =
-        props.limit !== -1
-          ? filterMissions.slice(0, props.limit)
+        props.options.limit !== -1
+          ? filterMissions.slice(0, props.options.limit)
           : filterMissions;
 
       return sortedMissionList;
+    }
+
+    function calcUnit(executeTime: number, unitTime: number): number {
+      return Math.floor(executeTime / unitTime);
     }
 
     function executeMission(id: number) {
@@ -81,7 +109,7 @@ export default defineComponent({
 
     return {
       ...toRefs(state),
-      sortedMission,
+      calcUnit,
       executeMission,
     };
   },
@@ -91,6 +119,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 $mission_list_icon_size: 22px;
 $mission_list_font_color: #003164;
+$mission_list_advanced_mode_font_color: #fff;
 
 .mission-list {
   &-wrapper {
@@ -148,5 +177,32 @@ $mission_list_font_color: #003164;
     font-weight: bold;
     cursor: pointer;
   }
+}
+
+.timelength-wrapper {
+  padding: 2px 0;
+  display: inline-block;
+  width: 100%;
+}
+
+.timelength-showing-circle {
+  margin: 0 2.5px;
+  background-color: $mission_list_advanced_mode_font_color;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.is-complete {
+  text-decoration: line-through;
+}
+
+.advanced-mode-bg-color {
+  background-color: $mission_list_advanced_mode_font_color;
+}
+
+.advanced-mode-color {
+  color: $mission_list_advanced_mode_font_color;
 }
 </style>
