@@ -32,8 +32,11 @@ describe("MissionList.vue test", () => {
             executeTime: 0,
           },
         ],
-        showComplete: false,
-        limit: 2,
+        options: {
+          showComplete: false,
+          showFirstMission: false,
+          limit: 2,
+        },
       },
     });
 
@@ -70,9 +73,11 @@ describe("MissionList.vue test", () => {
           executeTime: 0,
         },
       ],
-      showComplete: true,
-      limit: -1,
-      showFirstMission: true,
+      options: {
+        showComplete: true,
+        showFirstMission: true,
+        limit: -1,
+      },
     });
 
     await wrapper.vm.$nextTick();
@@ -111,8 +116,11 @@ describe("MissionList.vue test", () => {
             executeTime: 0,
           },
         ],
-        showComplete: false,
-        limit: 2,
+        options: {
+          showComplete: false,
+          showFirstMission: false,
+          limit: 2,
+        },
       },
     });
 
@@ -161,9 +169,11 @@ describe("MissionList.vue test", () => {
             executeTime: 0,
           },
         ],
-        showComplete: false,
-        limit: 2,
-        showFirstMission: false,
+        options: {
+          showComplete: false,
+          showFirstMission: false,
+          limit: 2,
+        },
       },
     });
 
