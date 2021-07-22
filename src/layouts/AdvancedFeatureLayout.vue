@@ -1,32 +1,10 @@
 <template>
   <section class="advanced-feature-layout" ref="root">
     <div class="table__cell__4 menu-wrapper relative">
-      <div class="menu-group">
-        <div
-          class="menu-item-wrapper"
-          :class="{ active: currentPage === 'todolist' }"
-          @click="linkClick('todolist')"
-        >
-          <div class="menu-item-icon icon-list" />
-          <div class="menu-item-context" v-if="advancedMode">to-do list</div>
-        </div>
-        <div
-          class="menu-item-wrapper"
-          :class="{ active: currentPage === 'analytics' }"
-          @click="linkClick('analytics')"
-        >
-          <div class="menu-item-icon icon-chart" />
-          <div class="menu-item-context" v-if="advancedMode">analytics</div>
-        </div>
-        <div
-          class="menu-item-wrapper"
-          :class="{ active: currentPage === 'ringtones' }"
-          @click="linkClick('ringtones')"
-        >
-          <div class="menu-item-icon icon-ringtone" />
-          <div class="menu-item-context" v-if="advancedMode">ringtones</div>
-        </div>
-      </div>
+      <menu-group
+        :advancedMode="advancedMode"
+        @menuItemClickEmit="menuItemClickEmitHandler"
+      />
       <div class="playing-panel" v-if="advancedMode">
         <div class="timer-controller-wrapper relative">
           <div class="timer-controller-outer">
@@ -87,6 +65,9 @@
 import { defineComponent, PropType, reactive, ref, toRefs } from "vue";
 import MissionInput from "@/components/MissionInput.vue";
 import MissionList from "@/components/MissionList.vue";
+
+import MenuGroup from "@/components/AdvancedFeature/MenuGroup.vue";
+
 import Mission from "@/interfaces/Mission";
 
 export default defineComponent({
@@ -94,6 +75,7 @@ export default defineComponent({
   components: {
     MissionInput,
     MissionList,
+    MenuGroup,
   },
   props: {
     advancedMode: Boolean,
@@ -104,12 +86,19 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const root = ref<HTMLDivElement>();
-
+    // @data
     const state = reactive({
       advancedMode: props.advancedMode,
       currentPage: null as null | string,
     });
 
+    // @methods: emit handler
+    function menuItemClickEmitHandler(preload: string) {
+      state.currentPage = preload;
+      if (!props.advancedMode) openAdvancedPage();
+    }
+
+    // @methods
     function linkClick(page: string) {
       state.currentPage = page;
       if (!props.advancedMode) {
@@ -121,11 +110,6 @@ export default defineComponent({
       const rootDom = root.value;
       if (rootDom) {
         rootDom.style.left = "0px";
-        rootDom
-          .querySelectorAll<HTMLElement>(".menu-item-wrapper")
-          .forEach((item: HTMLElement) => {
-            item.style.justifyContent = "flex-start";
-          });
       }
       state.advancedMode = true;
       emit("changeModeEmit", state.advancedMode);
@@ -135,11 +119,6 @@ export default defineComponent({
       const rootDom = root.value;
       if (rootDom) {
         rootDom.style.left = "66.67%";
-        rootDom
-          .querySelectorAll<HTMLElement>(".menu-item-wrapper")
-          .forEach((item: HTMLElement) => {
-            item.style.justifyContent = "flex-end";
-          });
       }
       state.advancedMode = false;
       emit("changeModeEmit", state.advancedMode);
@@ -148,6 +127,7 @@ export default defineComponent({
     return {
       ...toRefs(state),
       root,
+      menuItemClickEmitHandler,
       linkClick,
       closeAdvancedPage,
     };
@@ -169,53 +149,6 @@ $button_size: 36px;
   height: 100vh;
   background-color: #003164;
   transition: left 0.5s ease;
-}
-
-.menu-item {
-  &-wrapper {
-    min-height: 55px;
-    margin: 30px 0;
-    display: flex;
-    justify-content: flex-end;
-    flex-wrap: wrap;
-    align-items: center;
-    cursor: pointer;
-    transition: all 0.1s ease;
-
-    &:hover > .menu-item-icon {
-      background-color: #ff4384;
-    }
-
-    &:hover > .menu-item-context {
-      color: #ff4384;
-    }
-  }
-
-  &-wrapper.active {
-    .menu-item-icon {
-      background-color: #ff4384;
-    }
-    .menu-item-context {
-      color: #ff4384;
-    }
-  }
-
-  &-icon {
-    margin-right: 10px;
-    min-width: 36px;
-    min-height: 36px;
-    background-color: rgba(255, 255, 255, 0.3);
-    transition: all 0.3s ease;
-  }
-
-  &-context {
-    font-size: 36px;
-    font-weight: bold;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.3);
-    white-space: wrap;
-    transition: all 0.3s ease;
-  }
 }
 
 .playing-panel {
@@ -321,27 +254,6 @@ $button_size: 36px;
   font-weight: bold;
   color: #fff;
   font-size: 24px;
-}
-
-.icon-list {
-  mask: url("~@/assets/svg/format_list_bulleted_black_24dp.svg") no-repeat
-    center / contain;
-  -webkit-mask: url("~@/assets/svg/format_list_bulleted_black_24dp.svg")
-    no-repeat center / contain;
-}
-
-.icon-chart {
-  mask: url("~@/assets/svg/insert_chart_black_24dp.svg") no-repeat center /
-    contain;
-  -webkit-mask: url("~@/assets/svg/insert_chart_black_24dp.svg") no-repeat
-    center / contain;
-}
-
-.icon-ringtone {
-  mask: url("~@/assets/svg/library_music_black_24dp.svg") no-repeat center /
-    contain;
-  -webkit-mask: url("~@/assets/svg/library_music_black_24dp.svg") no-repeat
-    center / contain;
 }
 
 .todolist-wrapper {
