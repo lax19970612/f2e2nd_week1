@@ -6,7 +6,7 @@
   />
   <transition name="timer-fade">
     <timer
-      v-if="!advancedMode"
+      v-show="!advancedMode"
       :mission="missionList[0]"
       @timerCountingEmit="timerCountingEmitHandler"
     />
