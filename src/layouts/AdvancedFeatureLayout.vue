@@ -8,31 +8,10 @@
       <playing-panel v-if="advancedMode" />
     </div>
     <div class="table__cell__6 menu-wrapper">
-      <div class="todolist-wrapper" v-if="currentPage === 'todolist'">
-        <mission-input />
-        <div class="custom-header-bar">TO-DO</div>
-        <mission-list
-          :missionList="missionList"
-          :options="{
-            showComplete: false,
-            limit: -1,
-            showFirstMission: true,
-            inAdvancedMode: true,
-          }"
-          @executeMissionEmit="executeMissionEmitHandler"
-        />
-        <div class="custom-header-bar">DONE</div>
-        <mission-list
-          :missionList="missionList"
-          :options="{
-            showComplete: true,
-            limit: -1,
-            showFirstMission: true,
-            inAdvancedMode: true,
-          }"
-          @executeMissionEmit="executeMissionEmitHandler"
-        />
-      </div>
+      <to-do-list
+        :missionList="missionList"
+        v-if="currentPage === 'todolist'"
+      />
       <div
         class="analytics-wrapper"
         v-else-if="currentPage === 'analytics'"
@@ -51,9 +30,8 @@
 
 <script lang="ts">
 import { defineComponent, PropType, reactive, ref, toRefs } from "vue";
-import MissionInput from "@/components/MissionInput.vue";
-import MissionList from "@/components/MissionList.vue";
 
+import ToDoList from "./AdvancedFeature/ToDoList.vue";
 import MenuGroup from "@/components/AdvancedFeature/MenuGroup.vue";
 import PlayingPanel from "@/components/AdvancedFeature/PlayingPanel.vue";
 
@@ -62,8 +40,7 @@ import Mission from "@/interfaces/Mission";
 export default defineComponent({
   name: "AdvancedFeatureLayout",
   components: {
-    MissionInput,
-    MissionList,
+    ToDoList,
     MenuGroup,
     PlayingPanel,
   },
@@ -150,26 +127,6 @@ export default defineComponent({
   font-weight: bold;
   color: #fff;
   font-size: 24px;
-}
-
-.todolist-wrapper {
-  width: 100%;
-  height: 100%;
-  padding: 30px 0 30px 100px;
-}
-
-.custom-header-bar {
-  width: 100%;
-  height: 44px;
-  margin-top: 56px;
-  padding: 0 16px;
-  background-color: #ffffff33;
-  color: #fff;
-
-  font-size: 24px;
-  line-height: 44px;
-  text-transform: uppercase;
-  font-weight: bold;
 }
 
 .exit-button {
