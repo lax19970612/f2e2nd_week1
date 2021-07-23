@@ -4,29 +4,33 @@
     <div
       class="countdown-timer-icon"
       :style="[
-        isCounting
+        timerStart
           ? { 'background-color': '#fff' }
           : { 'background-color': '#00a7ff' },
       ]"
     >
       <div
         class="countdown-timer-controller-icon-wrapper"
-        :class="[isCounting ? 'button-pause-wrapper' : 'button-start-wrapper']"
-        @click="triggerCounting"
+        :class="[timerStart ? 'button-pause-wrapper' : 'button-start-wrapper']"
+        @click="toggleTimer"
       >
-        <div :class="[isCounting ? 'button-pause' : 'button-start']" />
+        <div :class="[timerStart ? 'button-pause' : 'button-start']" />
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs, computed, PropType } from "vue";
+import { defineComponent, computed, PropType } from "vue";
 import Mission from "@/interfaces/Mission";
 
 export default defineComponent({
   name: "Timer",
   props: {
+    timerStart: {
+      type: Boolean,
+      default: false,
+    },
     mission: {
       type: Object as PropType<Mission>,
       default: () => {
@@ -35,11 +39,6 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
-    const state = reactive({
-      isCounting: false,
-      countInterval: undefined as undefined | number,
-    });
-
     // @computed
     const sectorClipPath = computed(() => {
       const executeTime = props.mission.executeTime % props.mission.unitTime;
@@ -64,20 +63,13 @@ export default defineComponent({
       }
     });
 
-    function triggerCounting() {
-      state.isCounting = !state.isCounting;
-
-      state.isCounting
-        ? (state.countInterval = setInterval(() => {
-            emit("timerCountingEmit");
-          }, 1000))
-        : clearInterval(state.countInterval);
+    function toggleTimer() {
+      emit("toggleTimerEmit");
     }
 
     return {
-      ...toRefs(state),
       sectorClipPath,
-      triggerCounting,
+      toggleTimer,
     };
   },
 });

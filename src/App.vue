@@ -8,7 +8,8 @@
     <timer
       v-show="!advancedMode"
       :mission="missionList[0]"
-      @timerCountingEmit="timerCountingEmitHandler"
+      :timerStart="timerStart"
+      @toggleTimerEmit="toggleTimerEmitHandler"
     />
   </transition>
   <advanced-feature-layout
@@ -44,6 +45,8 @@ export default defineComponent({
     const state = reactive({
       advancedMode: false,
       missionList: tempMissionData,
+      timerStart: false,
+      timer: null as null | number,
       ringtonesSetting: {
         work: tempRingtoneList[0] || null,
         break: tempRingtoneList[0] || null,
@@ -72,8 +75,20 @@ export default defineComponent({
       });
     }
 
-    function timerCountingEmitHandler() {
-      state.missionList[0].executeTime++;
+    function toggleTimerEmitHandler() {
+      state.timerStart = !state.timerStart;
+      if (state.timerStart) {
+        if (state.timer === null)
+          state.timer = setInterval(
+            () => state.missionList[0].executeTime++,
+            1000
+          );
+      } else {
+        if (state.timer !== null) {
+          clearInterval(state.timer);
+          state.timer = null;
+        }
+      }
     }
 
     function changeModeEmitHandler(flag: boolean) {
@@ -98,7 +113,7 @@ export default defineComponent({
       ...toRefs(state),
       executeMissionEmitHandler,
       addMissionEmitHandler,
-      timerCountingEmitHandler,
+      toggleTimerEmitHandler,
       changeModeEmitHandler,
       ringtoneSettingChangeEmitHandler,
     };
