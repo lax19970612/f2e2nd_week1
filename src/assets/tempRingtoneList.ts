@@ -1,0 +1,17 @@
+export default [
+  "none",
+  "default",
+  "alarm",
+  "alert",
+  "beep",
+  "bell",
+  "bird",
+  "bugle",
+  "digital",
+  "drop",
+  "horn",
+  "music",
+  "ring",
+  "warning",
+  "whistle",
+];

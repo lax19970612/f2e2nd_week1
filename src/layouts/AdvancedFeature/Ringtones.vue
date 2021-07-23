@@ -1,34 +1,36 @@
 <template>
   <div class="ringtones-wrapper">
     <header-bar title="work" />
-    <div class="radio-group">
+    <div class="radio-group ringtones-work">
       <label
         class="custom-radio"
-        v-for="(ringtone, index) in ringtoneList"
+        v-for="(ringtone, index) in setting.list"
         :key="index"
       >
         <input
           type="radio"
           name="ringtone-work"
           :value="ringtone"
-          v-model="ringtoneWork"
+          :checked="ringtone === setting.work"
+          @change="settingChange($event, 'work')"
         />
         <div />
         <span>{{ ringtone }}</span>
       </label>
     </div>
     <header-bar style="margin-top: 56px" title="break" />
-    <div class="radio-group">
+    <div class="radio-group ringtones-break">
       <label
         class="custom-radio"
-        v-for="(ringtone, index) in ringtoneList"
+        v-for="(ringtone, index) in setting.list"
         :key="index"
       >
         <input
           type="radio"
           name="ringtone-break"
           :value="ringtone"
-          v-model="ringtoneBreak"
+          :checked="ringtone === setting.break"
+          @change="settingChange($event, 'break')"
         />
         <div />
         <span>{{ ringtone }}</span>
@@ -38,40 +40,37 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs } from "vue";
+import { defineComponent, PropType } from "vue";
 import HeaderBar from "@/components/AdvancedFeature/HeaderBar.vue";
-
-const ringtones = [
-  "none",
-  "default",
-  "alarm",
-  "alert",
-  "beep",
-  "bell",
-  "bird",
-  "bugle",
-  "digital",
-  "drop",
-  "horn",
-  "music",
-  "ring",
-  "warning",
-  "whistle",
-];
 
 export default defineComponent({
   name: "Ringtones",
   components: {
     HeaderBar,
   },
-  setup() {
-    const state = reactive({
-      ringtoneList: ringtones,
-      ringtoneWork: "none",
-      ringtoneBreak: "none",
-    });
+  props: {
+    setting: {
+      type: Object as PropType<{
+        work: string | null;
+        break: string | null;
+        list: string[];
+      }>,
+      default: () => {
+        return { work: null, break: null, list: [] };
+      },
+    },
+  },
+  setup(props, { emit }) {
+    // @methods
+    function settingChange(event: Event, type: string) {
+      const element = event.target as HTMLInputElement;
+      emit("ringtoneSettingChangeEmit", {
+        type: type,
+        value: element.value,
+      });
+    }
 
-    return { ...toRefs(state) };
+    return { settingChange };
   },
 });
 </script>

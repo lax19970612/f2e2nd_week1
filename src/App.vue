@@ -14,9 +14,11 @@
   <advanced-feature-layout
     :advancedMode="advancedMode"
     :missionList="missionList"
+    :ringtonesSetting="ringtonesSetting"
     @addMissionEmit="addMissionEmitHandler"
     @executeMissionEmit="executeMissionEmitHandler"
     @changeModeEmit="changeModeEmitHandler"
+    @ringtoneSettingChangeEmit="ringtoneSettingChangeEmitHandler"
   />
 </template>
 
@@ -28,6 +30,7 @@ import AdvancedFeatureLayout from "./layouts/AdvancedFeatureLayout.vue";
 import Timer from "./components/Timer.vue";
 
 import tempMissionData from "@/assets/tempMissionData";
+import tempRingtoneList from "@/assets/tempRingtoneList";
 
 export default defineComponent({
   name: "App",
@@ -41,6 +44,11 @@ export default defineComponent({
     const state = reactive({
       advancedMode: false,
       missionList: tempMissionData,
+      ringtonesSetting: {
+        work: tempRingtoneList[0] || null,
+        break: tempRingtoneList[0] || null,
+        list: tempRingtoneList,
+      },
     });
 
     function executeMissionEmitHandler(payload: number) {
@@ -72,12 +80,27 @@ export default defineComponent({
       state.advancedMode = flag;
     }
 
+    function ringtoneSettingChangeEmitHandler(payload: {
+      type: string;
+      value: string;
+    }) {
+      switch (payload.type) {
+        case "work":
+          state.ringtonesSetting.work = payload.value;
+          break;
+        case "break":
+          state.ringtonesSetting.break = payload.value;
+          break;
+      }
+    }
+
     return {
       ...toRefs(state),
       executeMissionEmitHandler,
       addMissionEmitHandler,
       timerCountingEmitHandler,
       changeModeEmitHandler,
+      ringtoneSettingChangeEmitHandler,
     };
   },
 });

@@ -9,19 +9,21 @@
       <playing-panel v-if="advancedMode" />
     </div>
     <div class="table__cell__6 menu-wrapper">
-      <keep-alive>
-        <to-do-list
-          :missionList="missionList"
-          @addMissionEmit="addMissionEmitHandler"
-          @executeMissionEmit="executeMissionEmitHandler"
-          v-if="currentPage === 'todolist'"
-        />
-        <div
-          class="analytics-wrapper"
-          v-else-if="currentPage === 'analytics'"
-        ></div>
-        <ringtones v-else-if="currentPage === 'ringtones'" />
-      </keep-alive>
+      <to-do-list
+        :missionList="missionList"
+        @addMissionEmit="addMissionEmitHandler"
+        @executeMissionEmit="executeMissionEmitHandler"
+        v-if="currentPage === 'todolist'"
+      />
+      <div
+        class="analytics-wrapper"
+        v-else-if="currentPage === 'analytics'"
+      ></div>
+      <ringtones
+        :setting="ringtonesSetting"
+        @ringtoneSettingChangeEmit="ringtoneSettingChangeEmitHandler"
+        v-else-if="currentPage === 'ringtones'"
+      />
     </div>
     <div class="table__cell__2 menu-wrapper">
       <div class="exit-button" @click="closeAdvancedPage" />
@@ -54,6 +56,16 @@ export default defineComponent({
       type: Array as PropType<Mission[]>,
       default: () => [],
     },
+    ringtonesSetting: {
+      type: Object as PropType<{
+        work: string | null;
+        break: string | null;
+        list: string[];
+      }>,
+      default: () => {
+        return { work: null, break: null, list: [] };
+      },
+    },
   },
   setup(props, { emit }) {
     const root = ref<HTMLDivElement>();
@@ -76,6 +88,13 @@ export default defineComponent({
     function executeMissionEmitHandler(payload: number) {
       closeAdvancedPage();
       emit("executeMissionEmit", payload);
+    }
+
+    function ringtoneSettingChangeEmitHandler(payload: {
+      type: string;
+      value: string;
+    }) {
+      emit("ringtoneSettingChangeEmit", payload);
     }
 
     // @methods
@@ -104,6 +123,7 @@ export default defineComponent({
       addMissionEmitHandler,
       executeMissionEmitHandler,
       menuItemClickEmitHandler,
+      ringtoneSettingChangeEmitHandler,
       closeAdvancedPage,
     };
   },
