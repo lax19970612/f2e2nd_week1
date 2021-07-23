@@ -72,7 +72,7 @@ export default defineComponent({
 .todolist-wrapper {
   width: 100%;
   height: 100%;
-  padding: 30px 0 30px 100px;
+  padding-left: 100px;
 }
 
 .mission-list-wrapper {

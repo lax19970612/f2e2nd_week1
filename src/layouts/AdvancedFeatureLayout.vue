@@ -136,7 +136,6 @@ export default defineComponent({
 }
 
 .exit-button {
-  margin-top: 24px;
   width: 36px;
   cursor: pointer;
   font-size: 36px;

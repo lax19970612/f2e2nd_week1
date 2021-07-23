@@ -52,7 +52,7 @@ export default defineComponent({
 .menu-item {
   &-wrapper {
     min-height: 55px;
-    margin: 30px 0;
+    margin-bottom: 20px;
     display: flex;
     justify-content: flex-end;
     flex-wrap: wrap;
