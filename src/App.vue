@@ -84,10 +84,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-@font-face {
-  font-family: Roboto;
-  src: url("https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap");
-}
+@import url("https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300ita%E2%80%8C%E2%80%8Blic,400italic,500,500italic,700,700italic,900italic,900");
 
 * {
   box-sizing: border-box;
