@@ -3,6 +3,7 @@
     <mission-input @addMissionEmit="addMissionEmitHandler" />
     <header-bar title="to-do" />
     <mission-list
+      class="mission-list-wrapper"
       :missionList="missionList"
       :options="{
         showComplete: false,
@@ -14,6 +15,7 @@
     />
     <header-bar title="done" />
     <mission-list
+      class="mission-list-wrapper"
       :missionList="missionList"
       :options="{
         showComplete: true,
@@ -71,5 +73,17 @@ export default defineComponent({
   width: 100%;
   height: 100%;
   padding: 30px 0 30px 100px;
+}
+
+.mission-list-wrapper {
+  max-height: 150px;
+  overflow-y: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
 }
 </style>
