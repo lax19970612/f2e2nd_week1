@@ -9,20 +9,19 @@
       <playing-panel v-if="advancedMode" />
     </div>
     <div class="table__cell__6 menu-wrapper">
-      <to-do-list
-        :missionList="missionList"
-        @addMissionEmit="addMissionEmitHandler"
-        @executeMissionEmit="executeMissionEmitHandler"
-        v-if="currentPage === 'todolist'"
-      />
-      <div
-        class="analytics-wrapper"
-        v-else-if="currentPage === 'analytics'"
-      ></div>
-      <div
-        class="ringtones-wrapper"
-        v-else-if="currentPage === 'ringtones'"
-      ></div>
+      <keep-alive>
+        <to-do-list
+          :missionList="missionList"
+          @addMissionEmit="addMissionEmitHandler"
+          @executeMissionEmit="executeMissionEmitHandler"
+          v-if="currentPage === 'todolist'"
+        />
+        <div
+          class="analytics-wrapper"
+          v-else-if="currentPage === 'analytics'"
+        ></div>
+        <ringtones v-else-if="currentPage === 'ringtones'" />
+      </keep-alive>
     </div>
     <div class="table__cell__2 menu-wrapper">
       <div class="exit-button" @click="closeAdvancedPage" />
@@ -35,6 +34,7 @@
 import { defineComponent, PropType, reactive, ref, toRefs } from "vue";
 
 import ToDoList from "./AdvancedFeature/ToDoList.vue";
+import Ringtones from "./AdvancedFeature/Ringtones.vue";
 import MenuGroup from "@/components/AdvancedFeature/MenuGroup.vue";
 import PlayingPanel from "@/components/AdvancedFeature/PlayingPanel.vue";
 
@@ -44,6 +44,7 @@ export default defineComponent({
   name: "AdvancedFeatureLayout",
   components: {
     ToDoList,
+    Ringtones,
     MenuGroup,
     PlayingPanel,
   },
@@ -77,6 +78,7 @@ export default defineComponent({
       emit("executeMissionEmit", payload);
     }
 
+    // @methods
     function openAdvancedPage() {
       const rootDom = root.value;
       if (rootDom) {

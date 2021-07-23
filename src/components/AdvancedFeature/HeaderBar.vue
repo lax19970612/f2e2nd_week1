@@ -27,7 +27,6 @@ export default defineComponent({
 .custom-header-bar {
   width: 100%;
   height: 44px;
-  margin-top: 56px;
   padding: 0 16px;
   background-color: #ffffff33;
   color: #fff;
