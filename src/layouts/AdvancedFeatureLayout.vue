@@ -6,7 +6,12 @@
         :currentPage="currentPage"
         @menuItemClickEmit="menuItemClickEmitHandler"
       />
-      <playing-panel v-if="advancedMode" />
+      <playing-panel
+        v-if="advancedMode"
+        :timerStart="timerStart"
+        :mission="missionList[0]"
+        @toggleTimerEmit="toggleTimerEmitHandler"
+      />
     </div>
     <div class="table__cell__6 menu-wrapper">
       <to-do-list
@@ -56,6 +61,10 @@ export default defineComponent({
       type: Array as PropType<Mission[]>,
       default: () => [],
     },
+    timerStart: {
+      type: Boolean,
+      default: false
+    },
     ringtonesSetting: {
       type: Object as PropType<{
         work: string | null;
@@ -97,6 +106,10 @@ export default defineComponent({
       emit("ringtoneSettingChangeEmit", payload);
     }
 
+    function toggleTimerEmitHandler() {
+      emit("toggleTimerEmit");
+    }
+
     // @methods
     function openAdvancedPage() {
       const rootDom = root.value;
@@ -124,6 +137,7 @@ export default defineComponent({
       executeMissionEmitHandler,
       menuItemClickEmitHandler,
       ringtoneSettingChangeEmitHandler,
+      toggleTimerEmitHandler,
       closeAdvancedPage,
     };
   },

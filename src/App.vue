@@ -15,9 +15,11 @@
   <advanced-feature-layout
     :advancedMode="advancedMode"
     :missionList="missionList"
+    :timerStart="timerStart"
     :ringtonesSetting="ringtonesSetting"
     @addMissionEmit="addMissionEmitHandler"
     @executeMissionEmit="executeMissionEmitHandler"
+    @toggleTimerEmit="toggleTimerEmitHandler"
     @changeModeEmit="changeModeEmitHandler"
     @ringtoneSettingChangeEmit="ringtoneSettingChangeEmitHandler"
   />

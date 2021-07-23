@@ -1,18 +1,61 @@
 <template>
   <div class="playing-panel">
     <div class="timer-controller-wrapper relative">
-      <div class="timer-controller-outer">
+      <div class="timer-controller-outer" @click="toggleTimer">
         <div class="timer-controller-inner">
-          <div class="button-start" />
+          <div :class="[timerStart ? 'button-pause': 'button-start']" />
         </div>
       </div>
     </div>
     <div class="timer-content-wrapper relative">
-      <div class="timer-content-remain-time">25:00</div>
-      <div class="timer-content-mission">THE FIRST THING TO DO TODAY</div>
+      <div class="timer-content-remain-time">{{ remainTime }}</div>
+      <div class="timer-content-mission">{{ mission.name }}</div>
     </div>
   </div>
 </template>
+
+<script lang="ts">
+import { computed, defineComponent, PropType } from 'vue'
+import Mission from "@/interfaces/Mission"
+
+export default defineComponent({
+  name: "PlayingPanel",
+  props: {
+    timerStart: {
+      type: Boolean,
+      default: false,
+    },
+    mission: {
+      type: Object as PropType<Mission>,
+      default: () => {
+        return {};
+      },
+    },
+  },
+
+  setup(props, {emit}) {
+    // @computed
+    const remainTime = computed(() => {
+      const time =
+        props.mission.unitTime -
+        (props.mission.executeTime % props.mission.unitTime);
+      return `${Math.floor(time / 60)
+        .toString()
+        .padStart(2, "0")}:${(time % 60).toString().padStart(2, "0")}`;
+    });
+
+    function toggleTimer() {
+      emit("toggleTimerEmit");
+    }
+
+    return {
+      remainTime,
+      toggleTimer
+    }
+  },
+})
+</script>
+
 
 <style lang="scss" scoped>
 $button_size: 36px;
