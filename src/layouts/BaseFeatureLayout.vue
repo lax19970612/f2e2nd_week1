@@ -5,7 +5,7 @@
     <mission-list
       :options="{
         showComplete: false,
-        limit: -1,
+        limit: 3,
         showFirstMission: false,
         inAdvancedMode: false,
       }"
