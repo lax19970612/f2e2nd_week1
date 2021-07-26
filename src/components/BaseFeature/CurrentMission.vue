@@ -113,7 +113,6 @@ $current_mission_icon_size: 48px;
     font-size: 176px;
     color: #00a7ff;
     font-weight: bold;
-    margin-top: -40px;
   }
 }
 </style>
