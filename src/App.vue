@@ -149,8 +149,13 @@ body {
   transition: opacity 0.3s;
 }
 
-.timer-fade-enter,
+.timer-fade-enter-from,
 .timer-fade-leave-to {
   opacity: 0;
+}
+
+.timer-fade-enter-to,
+.timer-fade-leave-from {
+  opacity: 1;
 }
 </style>

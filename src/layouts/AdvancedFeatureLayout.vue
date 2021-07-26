@@ -14,18 +14,20 @@
       />
     </div>
     <div class="table__cell__6 menu-wrapper">
-      <to-do-list
-        :missionList="missionList"
-        @addMissionEmit="addMissionEmitHandler"
-        @executeMissionEmit="executeMissionEmitHandler"
-        v-if="currentPage === 'todolist'"
-      />
-      <anatylics v-else-if="currentPage === 'analytics'" />
-      <ringtones
-        :setting="ringtonesSetting"
-        @ringtoneSettingChangeEmit="ringtoneSettingChangeEmitHandler"
-        v-else-if="currentPage === 'ringtones'"
-      />
+      <transition name="advanced-page-transition" mode="out-in">
+        <to-do-list
+          :missionList="missionList"
+          @addMissionEmit="addMissionEmitHandler"
+          @executeMissionEmit="executeMissionEmitHandler"
+          v-if="currentPage === 'todolist'"
+        />
+        <anatylics v-else-if="currentPage === 'analytics'" />
+        <ringtones
+          :setting="ringtonesSetting"
+          @ringtoneSettingChangeEmit="ringtoneSettingChangeEmitHandler"
+          v-else-if="currentPage === 'ringtones'"
+        />
+      </transition>
     </div>
     <div class="table__cell__2 menu-wrapper">
       <div class="exit-button" @click="closeAdvancedPage" />
@@ -237,5 +239,25 @@ export default defineComponent({
 }
 .menu-wrapper {
   padding: 40px;
+}
+
+// transition advanced-page
+.advanced-page-transition-enter-active,
+.advanced-page-transition-leave-active {
+  transform-origin: 50% 50%;
+  transition: all 0.3s ease;
+}
+
+.advanced-page-transition-leave-from {
+  transform: rotate3d(1, 0, 0, 0deg);
+}
+.advanced-page-transition-leave-to {
+  transform: rotate3d(1, 0, 0, 180deg);
+}
+.advanced-page-transition-enter-from {
+  transform: rotate3d(1, 0, 0, 180deg);
+}
+.advanced-page-transition-enter-to {
+  transform: rotate3d(1, 0, 0, 360deg);
 }
 </style>
