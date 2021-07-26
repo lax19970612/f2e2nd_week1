@@ -3,7 +3,7 @@
     <div class="timer-controller-wrapper relative">
       <div class="timer-controller-outer" @click="toggleTimer">
         <div class="timer-controller-inner">
-          <div :class="[timerStart ? 'button-pause': 'button-start']" />
+          <div :class="[timerStart ? 'button-pause' : 'button-start']" />
         </div>
       </div>
     </div>
@@ -15,8 +15,8 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from 'vue'
-import Mission from "@/interfaces/Mission"
+import { computed, defineComponent, PropType } from "vue";
+import Mission from "@/interfaces/Mission";
 
 export default defineComponent({
   name: "PlayingPanel",
@@ -33,7 +33,7 @@ export default defineComponent({
     },
   },
 
-  setup(props, {emit}) {
+  setup(props, { emit }) {
     // @computed
     const remainTime = computed(() => {
       const time =
@@ -50,12 +50,11 @@ export default defineComponent({
 
     return {
       remainTime,
-      toggleTimer
-    }
+      toggleTimer,
+    };
   },
-})
+});
 </script>
-
 
 <style lang="scss" scoped>
 $button_size: 36px;

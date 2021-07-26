@@ -20,10 +20,7 @@
         @executeMissionEmit="executeMissionEmitHandler"
         v-if="currentPage === 'todolist'"
       />
-      <div
-        class="analytics-wrapper"
-        v-else-if="currentPage === 'analytics'"
-      ></div>
+      <anatylics v-else-if="currentPage === 'analytics'" />
       <ringtones
         :setting="ringtonesSetting"
         @ringtoneSettingChangeEmit="ringtoneSettingChangeEmitHandler"
@@ -41,6 +38,7 @@
 import { defineComponent, PropType, reactive, ref, toRefs } from "vue";
 
 import ToDoList from "./AdvancedFeature/ToDoList.vue";
+import Anatylics from "./AdvancedFeature/Analytics.vue";
 import Ringtones from "./AdvancedFeature/Ringtones.vue";
 import MenuGroup from "@/components/AdvancedFeature/MenuGroup.vue";
 import PlayingPanel from "@/components/AdvancedFeature/PlayingPanel.vue";
@@ -51,6 +49,7 @@ export default defineComponent({
   name: "AdvancedFeatureLayout",
   components: {
     ToDoList,
+    Anatylics,
     Ringtones,
     MenuGroup,
     PlayingPanel,
@@ -63,7 +62,7 @@ export default defineComponent({
     },
     timerStart: {
       type: Boolean,
-      default: false
+      default: false,
     },
     ringtonesSetting: {
       type: Object as PropType<{
