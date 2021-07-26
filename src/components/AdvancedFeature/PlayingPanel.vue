@@ -132,7 +132,7 @@ $button_size: 36px;
 
     display: flex;
     flex-direction: column;
-    padding-top: 50px;
+    padding-top: 60px;
   }
 
   &-remain-time {
@@ -147,7 +147,6 @@ $button_size: 36px;
     font-weight: bold;
     text-align: center;
     text-transform: uppercase;
-    margin-top: -15px;
   }
 }
 </style>
