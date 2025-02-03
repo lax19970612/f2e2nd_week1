@@ -27,4 +27,4 @@ npm run build
 
 ## demo site
 
-[https://laxative.github.io/f2e2nd_week1/](https://laxative.github.io/f2e2nd_week1/)
+[https://laxative.github.io/f2e2nd_week1/](https://lax19970612.github.io/f2e2nd_week1/)
